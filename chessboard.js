@@ -15,14 +15,18 @@ stockfish.postMessage("uci");
 stockfish.postMessage("isready");
 
 stockfish.onmessage = function(e){
-console.log("ENGINE:", e.data);
+
+    console.log("ENGINE:", e.data);
+
     const line = e.data;
+
+    if(line.includes("bestmove")){
+        console.log("FOUND BESTMOVE");
+    }
 
     if(!line.startsWith("bestmove")) return;
 
-    const move = line.split(" ")[1];
-
-    if(move === "(none)") return;
+}
 
     const aiMove = game.move({
         from: move.substring(0,2),
