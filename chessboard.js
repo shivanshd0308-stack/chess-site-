@@ -6,7 +6,9 @@ let blackSeconds = 600;
 let capturedByWhite = [];
 let capturedByBlack = [];
 const stockfish = new Worker("./stockfish-18-lite.js");
+
 alert("WORKER CREATED");
+
 stockfish.onerror = function(err){
     console.log("WORKER ERROR:", err.message);
     console.log("FILENAME:", err.filename);
