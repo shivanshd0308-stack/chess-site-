@@ -4,9 +4,6 @@ let blackSeconds = 600;
 let capturedByWhite = [];
 let capturedByBlack = [];
 
-const engine = new Worker(
-"https://cdn.jsdelivr.net/npm/stockfish@16/src/stockfish.js"
-);
 
 var game = new Chess();
 
@@ -161,35 +158,56 @@ function undoMove() {
 
 function makeAIMove() {
 
-    engine.postMessage(
-        "position fen " + game.fen()
-    );
+    const moves = game.moves({ verbose: true });
 
-    engine.postMessage("go depth 10");
+    if (moves.length === 0) return;
 
-    engine.onmessage = function(event) {
+    let bestMove = null;
+    let bestScore = -9999;
 
-        const line = event.data;
+    const pieceValue = {
+        p: 100,
+        n: 320,
+        b: 330,
+        r: 500,
+        q: 900,
+        k: 20000
+    };
 
-        if (!line.startsWith("bestmove")) return;
+    for (let move of moves) {
 
-        const move = line.split(" ")[1];
+        let score = 0;
 
-        if (!move || move === "(none)") return;
+        if (move.captured) {
+            score += pieceValue[move.captured];
+        }
 
-        game.move({
-            from: move.substring(0,2),
-            to: move.substring(2,4),
-            promotion: "q"
-        });
+        if (move.flags.includes("k")) score += 50;
+        if (move.flags.includes("q")) score += 50;
 
-        board.position(game.fen());
+        if (
+            move.to === "d4" ||
+            move.to === "e4" ||
+            move.to === "d5" ||
+            move.to === "e5"
+        ) {
+            score += 30;
+        }
 
-        document.getElementById("turnDisplay").innerText =
+        if (score > bestScore) {
+            bestScore = score;
+            bestMove = move;
+        }
+    }
+
+    game.move(bestMove);
+
+    board.position(game.fen());
+
+    document.getElementById("turnDisplay").innerText =
         "Turn: " +
         (game.turn() === "w" ? "White" : "Black");
 
-        document.getElementById("moveHistory").innerText =
+    document.getElementById("moveHistory").innerText =
         "Moves: " + game.history().join(" ");
-    };
 }
