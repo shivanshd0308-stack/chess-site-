@@ -16,39 +16,38 @@ stockfish.postMessage("isready");
 
 stockfish.onmessage = function(e){
 
-    console.log("ENGINE:", e.data);
+console.log("ENGINE:", e.data);
 
-    const line = e.data;
+const line = e.data;
 
-    if(line.includes("bestmove")){
-        console.log("FOUND BESTMOVE");
-    }
+if(!line.startsWith("bestmove")) return;
 
-    if(!line.startsWith("bestmove")) return;
+const move = line.split(" ")[1];
 
-}
+if(!move || move === "(none)") return;
 
-    const aiMove = game.move({
-        from: move.substring(0,2),
-        to: move.substring(2,4),
-        promotion: "q"
-    });
+const aiMove = game.move({
+    from: move.substring(0,2),
+    to: move.substring(2,4),
+    promotion: "q"
+});
 
-    if(!aiMove) return;
+if(!aiMove) return;
 
-    updateCapturedPieces(aiMove);
+updateCapturedPieces(aiMove);
 
-    board.position(game.fen());
+board.position(game.fen());
 
-    document.getElementById("turnDisplay").innerText =
+document.getElementById("turnDisplay").innerText =
     "Turn: " +
     (game.turn()==="w" ? "White" : "Black");
 
-    document.getElementById("moveHistory").innerText =
+document.getElementById("moveHistory").innerText =
     "Moves: " + game.history().join(" ");
+
 };
 
-stockfish.postMessage("uci");
+
 
 console.log("Before Chess:", typeof Chess);
 var game = new Chess();
