@@ -17,7 +17,7 @@ stockfish.postMessage("isready");
 stockfish.onmessage = function(e){
 
 console.log("ENGINE:", e.data);
-
+alert(e.data);
 const line = e.data;
 
 if(!line.startsWith("bestmove")) return;
