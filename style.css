@@ -218,21 +218,20 @@ animation-delay:2s;
 
 .logoBox{
 color:white;
-font-size:60px;
 text-align:center;
 animation:zoomIn 1.5s ease;
-}
 
-@keyframes zoomIn{
-0%{transform:scale(0);opacity:0;}
-100%{transform:scale(1);opacity:1;}
-}
+background:rgba(255,255,255,0.08);
+padding:35px;
+border-radius:25px;
 
-@keyframes fadeOut{
-to{
-opacity:0;
-visibility:hidden;
-}
+backdrop-filter:blur(15px);
+
+border:1px solid rgba(255,255,255,0.15);
+
+box-shadow:
+0 0 30px rgba(255,215,0,0.3),
+0 0 60px rgba(255,215,0,0.15);
 }
 .logoIcon{
 font-size:80px;
