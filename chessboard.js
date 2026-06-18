@@ -49,7 +49,7 @@ stockfish.postMessage("uci");
 console.log("Before Chess:", typeof Chess);
 var game = new Chess();
 console.log("After Chess");
-var game = new Chess();
+
 
 let playerSide = "white";
 
