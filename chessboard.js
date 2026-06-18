@@ -5,7 +5,7 @@ let blackSeconds = 600;
 
 let capturedByWhite = [];
 let capturedByBlack = [];
-const stockfish = new Worker("./stockfish-18-lite.js");
+const stockfish = new Worker("stockfish-18-lite.js");
 
 alert("WORKER CREATED");
 
