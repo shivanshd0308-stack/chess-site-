@@ -150,7 +150,7 @@ onDrop:function(source,target){
     });
 
 if(move===null) return "snapback";
-
+console.log("MOVE PLAYED");
 setTimeout(makeAIMove,300);
 
 updateCapturedPieces(move);
