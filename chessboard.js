@@ -5,17 +5,6 @@ let capturedByWhite = [];
 let capturedByBlack = [];
 
 
-document.getElementById("turnDisplay").innerText =
-    "Turn: " +
-    (game.turn()==="w" ? "White" : "Black");
-
-document.getElementById("moveHistory").innerText =
-    "Moves: " + game.history().join(" ");
-
-};
-
-
-
 console.log("Before Chess:", typeof Chess);
 var game = new Chess();
 console.log("After Chess");
