@@ -201,3 +201,36 @@ font-size:14px;
 
 box-shadow:0 0 5px rgba(255,255,255,0.1);
 }
+#splashScreen{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:#000;
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:99999;
+animation:fadeOut 2s ease forwards;
+animation-delay:2s;
+}
+
+.logoBox{
+color:white;
+font-size:60px;
+text-align:center;
+animation:zoomIn 1.5s ease;
+}
+
+@keyframes zoomIn{
+0%{transform:scale(0);opacity:0;}
+100%{transform:scale(1);opacity:1;}
+}
+
+@keyframes fadeOut{
+to{
+opacity:0;
+visibility:hidden;
+}
+}
