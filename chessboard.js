@@ -1,13 +1,13 @@
-alert("CHESSBOARD JS LOADED");
-
 let whiteSeconds = 600;
 let blackSeconds = 600;
 
 let capturedByWhite = [];
 let capturedByBlack = [];
-const stockfish = new Worker("stockfish-18-lite.js");
 
-alert("WORKER CREATED");
+const stockfish = new Worker(
+"https://cdn.jsdelivr.net/npm/stockfish@16/stockfish.js"
+);
+
 
 stockfish.onerror = function(err)
 {
