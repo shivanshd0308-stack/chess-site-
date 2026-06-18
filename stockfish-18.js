@@ -1,4 +1,3 @@
-console.log("Stockfish file loaded");
 /*!
  * Stockfish.js 18 (c) 2026, Chess.com, LLC
  * https://github.com/nmrugg/stockfish.js
