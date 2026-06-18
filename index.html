@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Chess Website</title>
+
+<link rel="stylesheet" href="style.css">
+
+<link rel="stylesheet"
+href="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.css">
+</head>
+
+<body>
+
+<h1>♟️ Chess Website</h1>
+
+<select id="sideSelect">
+    <option value="white">Play as White</option>
+    <option value="black">Play as Black</option>
+</select>
+
+<br><br>
+
+<button onclick="newGame()">New Game</button>
+<button onclick="undoMove()">Undo</button>
+
+<p id="turnDisplay">Turn: White</p>
+
+<div id="moveHistory">
+    Moves: -
+</div>
+
+<!-- BLACK PLAYER -->
+<div class="playerRow">
+
+    <div class="avatar">🤖</div>
+
+    <div class="playerInfo">
+
+        <div class="playerName">
+            Computer
+        </div>
+
+        <div class="playerElo">
+            3500 Elo 🇮🇳
+        </div>
+
+        <div id="capturedByWhite"
+        class="capturedInline"></div>
+
+    </div>
+
+    <div id="blackTime" class="timer">
+        10:00
+    </div>
+
+</div>
+
+<!-- BOARD -->
+<div id="board"></div>
+
+<!-- WHITE PLAYER -->
+<div class="playerRow">
+
+    <div class="avatar">♔</div>
+
+    <div class="playerInfo">
+
+        <div class="playerName">
+            Shivansh
+        </div>
+
+        <div class="playerElo">
+            578 Elo 🇮🇳
+        </div>
+
+        <div id="capturedByBlack"
+        class="capturedInline"></div>
+
+    </div>
+
+    <div id="whiteTime" class="timer">
+        10:00
+    </div>
+
+</div>
+
+<!-- GAME OVER -->
+<div id="gameOver" class="game-over">
+    <div class="game-over-box">
+        🏆 CHECKMATE 🏆
+    </div>
+</div>
+
+<!-- LIBRARIES -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
+
+<script>
+console.log("Chess =", typeof Chess);
+</script>
+
+<script src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js"></script>
+
+<script src="chessboard.js"></script>
+<script>
+<script>
+setTimeout(() => {
+    console.log("Chess =", typeof Chess);
+    console.log("jQuery =", typeof $);
+    console.log("Chessboard =", typeof Chessboard);
+}, 1000);
+</script>
+</body>
+</html>
