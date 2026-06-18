@@ -140,3 +140,37 @@ function undoMove() {
     document.getElementById("moveHistory").innerText =
         "Moves: " + game.history().join(" ");
 }
+function undoMove() {
+
+    game.undo();
+
+    board.position(game.fen());
+
+    document.getElementById("turnDisplay").innerText =
+        "Turn: " +
+        (game.turn() === "w" ? "White" : "Black");
+
+    document.getElementById("moveHistory").innerText =
+        "Moves: " + game.history().join(" ");
+}
+
+function makeAIMove() {
+
+    const moves = game.moves({ verbose: true });
+
+    if (moves.length === 0) return;
+
+    const move =
+    moves[Math.floor(Math.random() * moves.length)];
+
+    game.move(move);
+
+    board.position(game.fen());
+
+    document.getElementById("turnDisplay").innerText =
+    "Turn: " +
+    (game.turn() === "w" ? "White" : "Black");
+
+    document.getElementById("moveHistory").innerText =
+    "Moves: " + game.history().join(" ");
+}
