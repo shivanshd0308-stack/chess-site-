@@ -4,6 +4,10 @@ let blackSeconds = 600;
 let capturedByWhite = [];
 let capturedByBlack = [];
 
+const engine = new Worker(
+"https://cdn.jsdelivr.net/npm/stockfish@16/src/stockfish.js"
+);
+
 var game = new Chess();
 
 const board = Chessboard("board", {
