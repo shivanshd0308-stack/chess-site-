@@ -178,7 +178,17 @@ document.getElementById("difficulty").value;
     for (let move of moves) {
 
         let score = 0;
+if(difficulty === "easy"){
+    score += Math.random() * 200;
+}
 
+if(difficulty === "medium"){
+    score += Math.random() * 100;
+}
+
+if(difficulty === "hard"){
+    score += Math.random() * 0;
+}
         if (move.captured) {
             score += pieceValue[move.captured];
         }
