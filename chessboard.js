@@ -4,53 +4,6 @@ let blackSeconds = 600;
 let capturedByWhite = [];
 let capturedByBlack = [];
 
-const stockfish = new Worker(
-"https://cdn.jsdelivr.net/npm/stockfish@16/stockfish.js"
-);
-
-
-stockfish.onerror = function(err)
-{
-    alert("WORKER ERROR: " + err.message);
-
-    console.log("WORKER ERROR:", err.message);
-    console.log("FILENAME:", err.filename);
-    console.log("LINENO:", err.lineno);
-};
-console.log("Worker created");
-stockfish.postMessage("uci");
-
-stockfish.postMessage("isready");
-
-stockfish.onmessage = function(e){
-
-console.log("ENGINE:", e.data);
-
-if(e.data.includes("bestmove")){
-    alert("BESTMOVE FOUND");
-}
-
-alert(e.data);
-
-const line = e.data;
-
-if(!line.startsWith("bestmove")) return;
-
-const move = line.split(" ")[1];
-
-if(!move || move === "(none)") return;
-
-const aiMove = game.move({
-    from: move.substring(0,2),
-    to: move.substring(2,4),
-    promotion: "q"
-});
-
-if(!aiMove) return;
-
-updateCapturedPieces(aiMove);
-
-board.position(game.fen());
 
 document.getElementById("turnDisplay").innerText =
     "Turn: " +
@@ -71,16 +24,9 @@ console.log("After Chess");
 let playerSide = "white";
 
 function makeAIMove(){
-
-    console.log("AI TURN STARTED");
-    console.log("FEN:", game.fen());
-
-    stockfish.postMessage(
-        "position fen " + game.fen()
-    );
-
-    stockfish.postMessage("go movetime 1000");
+    return;
 }
+
 function updateCapturedPieces(move){
 
 if(!move.captured) return;
