@@ -1,3 +1,5 @@
+alert("CHESSBOARD JS LOADED");
+
 let whiteSeconds = 600;
 let blackSeconds = 600;
 
