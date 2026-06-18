@@ -234,3 +234,32 @@ opacity:0;
 visibility:hidden;
 }
 }
+.logoIcon{
+font-size:80px;
+animation:floatLogo 2s infinite ease-in-out;
+}
+
+.logoTitle{
+font-size:42px;
+font-weight:bold;
+letter-spacing:3px;
+margin-top:10px;
+}
+
+.logoSub{
+font-size:16px;
+color:#ccc;
+margin-top:8px;
+}
+
+@keyframes floatLogo{
+0%{
+transform:translateY(0);
+}
+50%{
+transform:translateY(-12px);
+}
+100%{
+transform:translateY(0);
+}
+}
