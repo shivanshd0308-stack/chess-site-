@@ -55,6 +55,9 @@ let playerSide = "white";
 
 function makeAIMove(){
 
+    console.log("AI TURN STARTED");
+    console.log("FEN:", game.fen());
+
     stockfish.postMessage(
         "position fen " + game.fen()
     );
