@@ -17,7 +17,13 @@ stockfish.postMessage("isready");
 stockfish.onmessage = function(e){
 
 console.log("ENGINE:", e.data);
+
+if(e.data.includes("bestmove")){
+    alert("BESTMOVE FOUND");
+}
+
 alert(e.data);
+
 const line = e.data;
 
 if(!line.startsWith("bestmove")) return;
@@ -65,7 +71,7 @@ function makeAIMove(){
         "position fen " + game.fen()
     );
 
-    stockfish.postMessage("go depth 10");
+    stockfish.postMessage("go movetime 1000");
 }
 function updateCapturedPieces(move){
 
