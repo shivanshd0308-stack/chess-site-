@@ -4,176 +4,139 @@ let blackSeconds = 600;
 let capturedByWhite = [];
 let capturedByBlack = [];
 
-
-console.log("Before Chess:", typeof Chess);
 var game = new Chess();
-console.log("After Chess");
 
+const board = Chessboard("board", {
+    draggable: true,
+    position: "start",
 
-let playerSide = "white";
+    pieceTheme:
+    "https://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png",
 
-function makeAIMove(){
-    return;
-}
+    onDragStart: function(source, piece) {
 
-function updateCapturedPieces(move){
+        if (game.game_over()) return false;
 
-if(!move.captured) return;
+        if (
+            (game.turn() === "w" && piece.search(/^b/) !== -1) ||
+            (game.turn() === "b" && piece.search(/^w/) !== -1)
+        ) {
+            return false;
+        }
+    },
 
-const pieceMap = {
-    p:"♟",
-    r:"♜",
-    n:"♞",
-    b:"♝",
-    q:"♛",
-    k:"♚"
-};
+    onDrop: function(source, target) {
 
-if(move.color === "w"){
-    capturedByWhite.push(pieceMap[move.captured]);
-}else{
-    capturedByBlack.push(pieceMap[move.captured]);
-}
+        const move = game.move({
+            from: source,
+            to: target,
+            promotion: "q"
+        });
 
-const cw = document.getElementById("capturedByWhite");
-const cb = document.getElementById("capturedByBlack");
+        if (move === null) return "snapback";
 
-if(cw){
-    cw.innerHTML =
-    capturedByWhite.map(p => `<span>${p}</span>`).join("");
-}
+        updateCapturedPieces(move);
 
-if(cb){
-    cb.innerHTML =
-    capturedByBlack.map(p => `<span>${p}</span>`).join("");
-}
+        document.getElementById("turnDisplay").innerText =
+            "Turn: " +
+            (game.turn() === "w" ? "White" : "Black");
 
-}
+        document.getElementById("moveHistory").innerText =
+            "Moves: " + game.history().join(" ");
 
-setInterval(function(){
+        if (game.in_checkmate()) {
+            document.getElementById("gameOver").style.display = "flex";
+        }
+    },
 
-if(game.game_over()) return;
-
-if(game.turn() === "w"){
-    whiteSeconds--;
-}else{
-    blackSeconds--;
-}
-
-document.getElementById("whiteTime").innerText =
-    Math.floor(whiteSeconds/60) + ":" +
-    String(whiteSeconds%60).padStart(2,"0");
-
-document.getElementById("blackTime").innerText =
-    Math.floor(blackSeconds/60) + ":" +
-    String(blackSeconds%60).padStart(2,"0");
-
-},1000);
-
-const board = Chessboard("board",{
-draggable:true,
-position:"start",
-
-pieceTheme:
-"https://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png",
-
-onDragStart:function(source,piece){
-
-    if(game.game_over()) return false;
-
-    if(
-        (game.turn()==="w" && piece.search(/^b/)!==-1) ||
-        (game.turn()==="b" && piece.search(/^w/)!==-1)
-    ){
-        return false;
+    onSnapEnd: function() {
+        board.position(game.fen());
     }
-},
+});
 
-onDrop:function(source,target){
+function updateCapturedPieces(move) {
 
-    const move = game.move({
-        from:source,
-        to:target,
-        promotion:"q"
-    });
+    if (!move.captured) return;
 
-if(move===null) return "snapback";
-console.log("MOVE PLAYED");
-setTimeout(makeAIMove,300);
+    const pieceMap = {
+        p: "♟",
+        r: "♜",
+        n: "♞",
+        b: "♝",
+        q: "♛",
+        k: "♚"
+    };
 
-updateCapturedPieces(move);
-  
+    if (move.color === "w") {
+        capturedByWhite.push(pieceMap[move.captured]);
+    } else {
+        capturedByBlack.push(pieceMap[move.captured]);
+    }
 
-    $("#board .square-55d63").removeClass("highlight");
+    const cw = document.getElementById("capturedByWhite");
+    const cb = document.getElementById("capturedByBlack");
 
-    $("#board .square-"+source).addClass("highlight");
-    $("#board .square-"+target).addClass("highlight");
+    cw.innerHTML = capturedByWhite.join(" ");
+    cb.innerHTML = capturedByBlack.join(" ");
+}
+
+setInterval(function() {
+
+    if (game.game_over()) return;
+
+    if (game.turn() === "w") {
+        whiteSeconds--;
+    } else {
+        blackSeconds--;
+    }
+
+    document.getElementById("whiteTime").innerText =
+        Math.floor(whiteSeconds / 60) + ":" +
+        String(whiteSeconds % 60).padStart(2, "0");
+
+    document.getElementById("blackTime").innerText =
+        Math.floor(blackSeconds / 60) + ":" +
+        String(blackSeconds % 60).padStart(2, "0");
+
+}, 1000);
+
+function newGame() {
+
+    game.reset();
+
+    board.position("start");
+
+    whiteSeconds = 600;
+    blackSeconds = 600;
+
+    capturedByWhite = [];
+    capturedByBlack = [];
+
+    document.getElementById("capturedByWhite").innerHTML = "";
+    document.getElementById("capturedByBlack").innerHTML = "";
+
+    document.getElementById("whiteTime").innerText = "10:00";
+    document.getElementById("blackTime").innerText = "10:00";
+
+    document.getElementById("turnDisplay").innerText =
+        "Turn: White";
+
+    document.getElementById("moveHistory").innerText =
+        "Moves: -";
+
+    document.getElementById("gameOver").style.display = "none";
+}
+
+function undoMove() {
+
+    game.undo();
+
+    board.position(game.fen());
 
     document.getElementById("turnDisplay").innerText =
         "Turn: " +
-        (game.turn()==="w" ? "White" : "Black");
+        (game.turn() === "w" ? "White" : "Black");
 
     document.getElementById("moveHistory").innerText =
         "Moves: " + game.history().join(" ");
-
-    if(game.in_checkmate()){
-        document.getElementById("gameOver").style.display = "flex";
-    }
-},
-
-onSnapEnd:function(){
-    board.position(game.fen());
-}
-
-});
-
-function newGame(){
-
-game.reset();
-
-board.position("start");
-
-whiteSeconds = 600;
-blackSeconds = 600;
-
-capturedByWhite = [];
-capturedByBlack = [];
-
-const cw = document.getElementById("capturedByWhite");
-const cb = document.getElementById("capturedByBlack");
-
-if(cw) cw.innerHTML = "";
-if(cb) cb.innerHTML = "";
-
-document.getElementById("whiteTime").innerText = "10:00";
-document.getElementById("blackTime").innerText = "10:00";
-
-document.getElementById("turnDisplay").innerText =
-    "Turn: White";
-
-document.getElementById("moveHistory").innerText =
-    "Moves: -";
-
-document.getElementById("gameOver").style.display =
-    "none";
-
-$("#board .square-55d63").removeClass("highlight");
-
-}
-
-function undoMove(){
-
-game.undo();
-
-board.position(game.fen());
-
-document.getElementById("turnDisplay").innerText =
-    "Turn: " +
-    (game.turn()==="w" ? "White" : "Black");
-
-document.getElementById("moveHistory").innerText =
-    "Moves: " + game.history().join(" ");
-
-$("#board .square-55d63").removeClass("highlight");
-
 }
