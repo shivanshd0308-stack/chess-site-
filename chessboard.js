@@ -161,21 +161,35 @@ function undoMove() {
 
 function makeAIMove() {
 
-    const moves = game.moves({ verbose: true });
+    engine.postMessage(
+        "position fen " + game.fen()
+    );
 
-    if (moves.length === 0) return;
+    engine.postMessage("go depth 10");
 
-    const move =
-    moves[Math.floor(Math.random() * moves.length)];
+    engine.onmessage = function(event) {
 
-    game.move(move);
+        const line = event.data;
 
-    board.position(game.fen());
+        if (!line.startsWith("bestmove")) return;
 
-    document.getElementById("turnDisplay").innerText =
-    "Turn: " +
-    (game.turn() === "w" ? "White" : "Black");
+        const move = line.split(" ")[1];
 
-    document.getElementById("moveHistory").innerText =
-    "Moves: " + game.history().join(" ");
+        if (!move || move === "(none)") return;
+
+        game.move({
+            from: move.substring(0,2),
+            to: move.substring(2,4),
+            promotion: "q"
+        });
+
+        board.position(game.fen());
+
+        document.getElementById("turnDisplay").innerText =
+        "Turn: " +
+        (game.turn() === "w" ? "White" : "Black");
+
+        document.getElementById("moveHistory").innerText =
+        "Moves: " + game.history().join(" ");
+    };
 }
