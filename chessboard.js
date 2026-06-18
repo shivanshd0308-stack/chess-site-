@@ -157,7 +157,8 @@ function undoMove() {
 }
 
 function makeAIMove() {
-
+const difficulty =
+document.getElementById("difficulty").value;
     const moves = game.moves({ verbose: true });
 
     if (moves.length === 0) return;
